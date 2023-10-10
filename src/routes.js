@@ -1,17 +1,22 @@
 const express = require("express");
 
-const { registerUser } = require("./controllers/controllersUsers");
+const { registerUser } = require("./controllers/userController");
 const validateRequest = require("./middlewares/validateRequest");
 const userSchema = require("./validations/userSchema");
 
 const { getCategories } = require("./controllers/categoryController");
 
-const route = express();
+const login = require("./controllers/loginController");
+const loginSchema = require("./validations/loginSchema");
 
-route.post("/usuario", validateRequest(userSchema), registerUser);
+const route = express();
 
 route.get("/", (req, res) => res.json("hello, world"));
 
 route.get("/categoria", getCategories);
+
+route.post("/usuario", validateRequest(userSchema), registerUser);
+route.post("/login", validateRequest(loginSchema), login);
+
 
 module.exports = route;
