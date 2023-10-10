@@ -1,0 +1,29 @@
+{
+  "name": "atena-pdv",
+  "version": "1.0.0",
+  "description": "Sistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmagalhaes2/atena-pdv.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmagalhaes2/atena-pdv/issues"
+  },
+  "homepage": "https://github.com/pmagalhaes2/atena-pdv#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "knex": "^3.0.1",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
