@@ -2,7 +2,7 @@ const knex = require('../connection');
 const jwt = require('jsonwebtoken');
 const jwtKey = require('../../jwtKey');
 
-const authenticatedUser = async (req, res) => {
+const authenticatedUser = async (req, res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
@@ -28,7 +28,6 @@ const authenticatedUser = async (req, res) => {
 
     } catch (error) {
         return res.status(401).json({ mensagem: 'Para acessar este recurso um token de autenticação válido deve ser enviado.' });
-
     }
 }
 

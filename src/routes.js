@@ -21,5 +21,4 @@ route.post("/login", validateRequest(loginSchema), login);
 
 route.use(authenticatedUser);
 
-
 module.exports = route;
