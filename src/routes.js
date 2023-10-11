@@ -8,6 +8,7 @@ const { getCategories } = require("./controllers/categoryController");
 
 const login = require("./controllers/loginController");
 const loginSchema = require("./validations/loginSchema");
+const authenticatedUser = require("./middlewares/authentication");
 
 const route = express();
 
@@ -17,6 +18,8 @@ route.get("/categoria", getCategories);
 
 route.post("/usuario", validateRequest(userSchema), registerUser);
 route.post("/login", validateRequest(loginSchema), login);
+
+route.use(authenticatedUser);
 
 
 module.exports = route;
