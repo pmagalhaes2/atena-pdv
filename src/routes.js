@@ -1,6 +1,10 @@
 const express = require("express");
 
-const { registerUser, detailUser } = require("./controllers/userController");
+const {
+  registerUser,
+  detailUser,
+  updateUser,
+} = require("./controllers/userController");
 const validateRequest = require("./middlewares/validateRequest");
 const userSchema = require("./validations/userSchema");
 
@@ -20,5 +24,6 @@ route.post("/login", validateRequest(loginSchema), login);
 route.use(authenticatedUser);
 
 route.get("/usuario", detailUser);
+route.put("/usuario", validateRequest(userSchema), updateUser);
 
 module.exports = route;
