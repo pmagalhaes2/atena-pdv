@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { registerUser } = require("./controllers/userController");
+const { registerUser, detailUser } = require("./controllers/userController");
 const validateRequest = require("./middlewares/validateRequest");
 const userSchema = require("./validations/userSchema");
 
@@ -12,13 +12,13 @@ const authenticatedUser = require("./middlewares/authentication");
 
 const route = express();
 
-route.get("/", (req, res) => res.json("hello, world"));
-
 route.get("/categoria", getCategories);
 
 route.post("/usuario", validateRequest(userSchema), registerUser);
 route.post("/login", validateRequest(loginSchema), login);
 
 route.use(authenticatedUser);
+
+route.get("/usuario", detailUser);
 
 module.exports = route;

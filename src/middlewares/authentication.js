@@ -1,6 +1,5 @@
 const knex = require('../connection');
 const jwt = require('jsonwebtoken');
-const jwtKey = require('../../jwtKey');
 
 const authenticatedUser = async (req, res, next) => {
     const { authorization } = req.headers;
@@ -12,7 +11,7 @@ const authenticatedUser = async (req, res, next) => {
     const token = authorization.split(' ')[1];
 
     try {
-        const { id } = jwt.verify(token, jwtKey);
+        const { id } = jwt.verify(token, process.env.JWT_KEY);
 
         const userFound = await knex('usuarios').where({ id }).first();
 

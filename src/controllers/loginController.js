@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const knex = require('../connection');
-const jwtKey = require('../../jwtKey');
 const jwt = require('jsonwebtoken');
 
 
@@ -22,7 +21,7 @@ const login = async (req, res) => {
             return res.status(404).json({ mensagem: 'E-mail e/ou senha inválido(s)' });
         }
 
-        const token = jwt.sign({ id: userFound.id }, jwtKey, { expiresIn: '8h' });
+        const token = jwt.sign({ id: userFound.id }, process.env.JWT_KEY, { expiresIn: '8h' });
 
         return res.status(200).json({ user, token })
 
