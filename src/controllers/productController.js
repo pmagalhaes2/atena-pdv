@@ -13,6 +13,14 @@ const registerProduct = async (req, res) => {
                 .json({ mensagem: "Categoria inválida" });
         }
 
+        const productName = await knex("produtos").where({ descricao }).first();
+
+        if (productName) {
+            return res
+                .status(400)
+                .json({ mensagem: "Produto já cadastrado", "Produto": productName });
+        }
+
         const product = await knex("produtos")
             .insert({
                 descricao,
@@ -22,7 +30,7 @@ const registerProduct = async (req, res) => {
             })
             .returning("*");
 
-        return res.status(201).json({ "Produto registrado": product });
+        return res.status(201).json({ "Produto registrado": product[0] });
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor" });
     }
