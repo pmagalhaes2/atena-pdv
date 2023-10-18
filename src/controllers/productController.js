@@ -47,6 +47,17 @@ const updateProduct = async (req, res) => {
             return res.status(404).json({ mensagem: "Produto não encontrado." });
         }
 
+        const productName = await knex("produtos")
+            .where("descricao", "ilike", descricao)
+            .whereNot("id", "=", id)
+            .first();
+
+        if (productName) {
+            return res
+                .status(400)
+                .json({ mensagem: "Já existe um produto com essa descricao", "Produto": productName });
+        }
+
         const category = await knex("categorias").where({ id: categoria_id }).first();
 
         if (!category) {
@@ -71,6 +82,7 @@ const updateProduct = async (req, res) => {
             .status(200)
             .json({ mensagem: "Produto atualizado com sucesso!", "Produto": updateProduct[0] });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ mensagem: "Erro interno do servidor" });
     }
 };
