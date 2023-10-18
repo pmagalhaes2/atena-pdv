@@ -13,6 +13,7 @@ const { getCategories } = require("./controllers/categoryController");
 const login = require("./controllers/loginController");
 const loginSchema = require("./validations/loginSchema");
 const authenticatedUser = require("./middlewares/authentication");
+const { registerProduct } = require("./controllers/productController");
 
 const route = express();
 
@@ -25,5 +26,7 @@ route.use(authenticatedUser);
 
 route.get("/usuario", detailUser);
 route.put("/usuario", validateRequest(userSchema), updateUser);
+
+route.post("/produto", registerProduct);
 
 module.exports = route;
