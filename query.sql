@@ -18,3 +18,16 @@ CREATE TABLE produtos (
     valor INT NOT NULL,
   	categoria_id INT REFERENCES categorias(id) NOT NULL
 );
+
+CREATE TABLE clientes ( 
+    id INT PRIMARY KEY,
+    nome VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    cpf VARCHAR(11) UNIQUE,
+    cep VARCHAR(8),
+    rua VARCHAR(255),
+    numero VARCHAR(10),
+    bairro VARCHAR(255),
+    cidade VARCHAR(255),
+    estado CHAR(2)
+);
