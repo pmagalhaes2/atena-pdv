@@ -20,7 +20,7 @@ CREATE TABLE produtos (
 );
 
 CREATE TABLE clientes ( 
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(255),
     email VARCHAR(255) UNIQUE,
     cpf VARCHAR(11) UNIQUE,
