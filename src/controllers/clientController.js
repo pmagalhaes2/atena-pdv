@@ -1,13 +1,11 @@
-const jwt = require('jsonwebtoken');
 const knex = require("../connection");
 const axios = require('axios');
 
 
-const registerCustomer = async (req, res) =>{
-        
-try {
-    const {nome, email, cpf, cep, numero} = req.body;
-    console.log({nome, email, cpf, cep, numero})
+const registerCustomer = async (req, res) => {
+
+  try {
+    const { nome, email, cpf, cep, numero } = req.body;
 
     const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     const addressData = response.data;
@@ -20,14 +18,14 @@ try {
 
     const existingEmail = await knex("clientes").where({ email }).first();
 
-    if(existingEmail){
-    return res.status(400).json({ mensagem: "Email já cadastrado." });
+    if (existingEmail) {
+      return res.status(400).json({ mensagem: "Email já cadastrado." });
     };
 
     const existingCpf = await knex("clientes").where({ cpf }).first();
 
-    if(existingCpf){
-    return res.status(400).json({ mensagem: "CPF já cadastrado." });
+    if (existingCpf) {
+      return res.status(400).json({ mensagem: "CPF já cadastrado." });
     };
 
     const client = await knex("clientes")
@@ -46,13 +44,13 @@ try {
 
     return res.status(201).json({ "Cliente Cadastrado": client[0] });
 
-    } catch (error) {
-        return res.status(500).json({ mensagem: "Erro interno do servidor" });
-    }
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
 }
 
 
 module.exports = {
-    registerCustomer
+  registerCustomer
 
 }
