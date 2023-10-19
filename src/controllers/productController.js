@@ -87,5 +87,41 @@ const updateProduct = async (req, res) => {
     }
 };
 
+const getProducts = async (req, res) => {
+  let { categoria_id } = req.query;
 
-module.exports = { registerProduct, updateProduct };
+  try {
+    if (!categoria_id) {
+      const products = await knex("produtos");
+
+      return res.status(200).json(products);
+    }
+
+    if (typeof categoria_id === "string") categoria_id = Array(categoria_id);
+
+    const categoryFound = await knex("categorias").whereIn("id", categoria_id);
+
+    if (!categoryFound.length) {
+      return res.status(404).json({ mensagem: "Categoria inválida!" });
+    }
+
+    const filteredProducts = await knex("produtos").whereIn(
+      "categoria_id",
+      categoria_id
+    );
+
+    if (!filteredProducts.length) {
+      return res.status(400).json({
+        mensagem:
+          "Não foi encontrado nenhum produto cadastrado com essa categoria!",
+      });
+    }
+
+    return res.status(200).json(filteredProducts);
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
+};
+
+
+module.exports = { registerProduct, updateProduct, getProducts };
