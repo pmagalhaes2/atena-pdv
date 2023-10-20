@@ -2,7 +2,7 @@ const knex = require("../connection");
 const axios = require('axios');
 
 
-const registerCustomer = async (req, res) => {
+const registerClient = async (req, res) => {
 
   try {
     const { nome, email, cpf, cep, numero } = req.body;
@@ -49,16 +49,16 @@ const registerCustomer = async (req, res) => {
   }
 }
 
-const listerCustomers = async (req, res) => {
+const getClients = async (req, res) => {
 
   try {
-    const customers = await knex
+    const clients = await knex
       .from('clientes')
       .select('*')
 
-    const { senha: _, ...customersFormatted } = customers
+    const { senha: _, ...clientsFormatted } = clients
 
-    return res.status(200).json(customersFormatted)
+    return res.status(200).json(clientsFormatted)
 
   } catch (error) {
     console.log(error)
@@ -66,13 +66,13 @@ const listerCustomers = async (req, res) => {
   }
 }
 
-const detailCustomer = async (req, res) => {
+const detailClient = async (req, res) => {
   const { id } = req.params
 
   try {
-    const customer = await knex('clientes').where({ id })
+    const client = await knex('clientes').where({ id })
 
-    return res.status(200).json(customer)
+    return res.status(200).json(client)
 
   } catch (error) {
     return res.status(500).json({ mensagem: 'Erro interno do servidor' })
@@ -80,7 +80,7 @@ const detailCustomer = async (req, res) => {
 }
 
 module.exports = {
-  registerCustomer,
-  listerCustomers,
-  detailCustomer
+  registerClient,
+  getClients,
+  detailClient
 }
