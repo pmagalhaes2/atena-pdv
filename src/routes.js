@@ -19,7 +19,8 @@ const {
   detailProduct,
   registerProduct,
   updateProduct,
-  getProducts
+  getProducts,
+  deleteProduct
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
@@ -39,9 +40,10 @@ route.get("/usuario", detailUser);
 route.put("/usuario", validateRequest(userSchema), updateUser);
 
 route.get("/produto", getProducts);
-route.get("/produto/:id", detailProduct)
+route.get("/produto/:id", detailProduct);
 route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
+route.delete("/produto/:id", deleteProduct)
 
 route.post("/cliente", validateRequest(customerSchema), registerCustomer);
 
