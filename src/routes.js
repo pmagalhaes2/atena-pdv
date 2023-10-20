@@ -16,8 +16,11 @@ const loginSchema = require("./validations/loginSchema");
 const authenticatedUser = require("./middlewares/authentication");
 
 const {
+  detailProduct,
   registerProduct,
-  updateProduct
+  updateProduct,
+  getProducts,
+  deleteProduct
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
@@ -40,7 +43,11 @@ route.post("/cliente", validateRequest(customerSchema), registerClient)
 route.get("/cliente", getClients);
 route.get("/cliente/:id", detailClient)
 
+route.get("/produto", getProducts);
+route.get("/produto/:id", detailProduct);
 route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
+route.delete("/produto/:id", deleteProduct)
+
 
 module.exports = route;
