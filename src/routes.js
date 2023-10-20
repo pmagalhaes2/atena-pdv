@@ -16,6 +16,7 @@ const loginSchema = require("./validations/loginSchema");
 const authenticatedUser = require("./middlewares/authentication");
 
 const {
+  detailProduct,
   registerProduct,
   updateProduct,
   getProducts
@@ -38,6 +39,7 @@ route.get("/usuario", detailUser);
 route.put("/usuario", validateRequest(userSchema), updateUser);
 
 route.get("/produto", getProducts);
+route.get("/produto/:id", detailProduct)
 route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
 
