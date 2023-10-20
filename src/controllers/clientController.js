@@ -70,12 +70,9 @@ const detailCustomer = async (req, res) => {
   const { id } = req.params
 
   try {
-    const customer = await knex
-      .from('clientes')
-      .select('*')
-      .where({ id })
+    const customer = await knex('clientes').where({ id })
 
-    return res.json(customer)
+    return res.status(200).json(customer)
 
   } catch (error) {
     return res.status(500).json({ mensagem: 'Erro interno do servidor' })
