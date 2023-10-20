@@ -49,8 +49,41 @@ const registerCustomer = async (req, res) => {
   }
 }
 
+const listerCustomers = async (req, res) => {
+
+  try {
+    const customers = await knex
+      .from('clientes')
+      .select('*')
+
+    const { senha: _, ...customersFormatted } = customers
+
+    return res.status(200).json(customersFormatted)
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+  }
+}
+
+const detailCustomer = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const customer = await knex
+      .from('clientes')
+      .select('*')
+      .where({ id })
+
+    return res.json(customer)
+
+  } catch (error) {
+    return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+  }
+}
 
 module.exports = {
-  registerCustomer
-
+  registerCustomer,
+  listerCustomers,
+  detailCustomer
 }
