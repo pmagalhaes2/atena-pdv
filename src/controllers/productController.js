@@ -144,4 +144,28 @@ const detailProduct = async (req, res) => {
   }
 };
 
-module.exports = { registerProduct, updateProduct, getProducts, detailProduct };
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const productFound = await knex("produtos").where({ id }).first();
+
+    if (!productFound) {
+      return res.status(404).json({ mensagem: "Produto não encontrado." });
+    }
+
+    await knex("produtos").del().where({ id });
+
+    return res.status(200).json({ mensagem: "Produto excluído com sucesso!" });
+  } catch (error) {
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
+};
+
+module.exports = {
+  registerProduct,
+  updateProduct,
+  getProducts,
+  detailProduct,
+  deleteProduct,
+};
