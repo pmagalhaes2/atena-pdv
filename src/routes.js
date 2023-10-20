@@ -24,7 +24,7 @@ const {
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
-const {registerCustomer} = require("./controllers/clientController")
+const { registerClient, getClients, detailClient } = require("./controllers/clientController")
 const customerSchema = require('./validations/costumerSchema')
 
 const route = express();
@@ -39,12 +39,15 @@ route.use(authenticatedUser);
 route.get("/usuario", detailUser);
 route.put("/usuario", validateRequest(userSchema), updateUser);
 
+route.post("/cliente", validateRequest(customerSchema), registerClient)
+route.get("/cliente", getClients);
+route.get("/cliente/:id", detailClient)
+
 route.get("/produto", getProducts);
 route.get("/produto/:id", detailProduct);
 route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
 route.delete("/produto/:id", deleteProduct)
 
-route.post("/cliente", validateRequest(customerSchema), registerCustomer);
 
 module.exports = route;
