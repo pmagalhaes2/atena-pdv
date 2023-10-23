@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const customerSchema = joi.object({
+const clientSchema = joi.object({
     nome: joi.string().required().messages({
         'any.required': 'O campo nome é obrigatório',
         'string.empty': 'O campo nome não pode estar vazio'
@@ -25,4 +25,4 @@ const customerSchema = joi.object({
 
 });
 
-module.exports = customerSchema;
+module.exports = clientSchema;
