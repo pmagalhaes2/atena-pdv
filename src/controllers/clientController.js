@@ -94,8 +94,8 @@ const editClient = async (req, res) => {
 
     if (emailExists) {
       
-    return res.status(400).json({ mensagem: "Email já cadastrado." });
-      }
+      return res.status(400).json({ mensagem: "Email já cadastrado." });
+    }
 
    
     const cpfExists = await knex("clientes").where({ cpf }).whereNot({ id }).first();
@@ -112,11 +112,8 @@ const editClient = async (req, res) => {
       numero,
     };
   
-    await knex("clientes")
-      .where({ id })
-      .update(updatedClient);
+    await knex("clientes").where({ id }).update(updatedClient);
 
-    // Recupere o registro atualizado do banco de dados
     const client = await knex("clientes").where({ id }).first();
 
     return res.status(200).json({ mensagem: "Cliente atualizado com sucesso", cliente: client });
