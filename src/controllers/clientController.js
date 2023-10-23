@@ -79,7 +79,7 @@ const detailClient = async (req, res) => {
   }
 };
 
-const editClient = async (req, res) => {
+const updateClient = async (req, res) => {
   try {
     const { id } = req.params; 
     const { nome, email, cpf, cep, numero } = req.body; 
@@ -126,5 +126,5 @@ module.exports = {
   registerClient,
   getClients,
   detailClient,
-  editClient
+  updateClient
 }

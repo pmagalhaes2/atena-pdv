@@ -24,7 +24,7 @@ const {
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
-const { registerClient, getClients, detailClient, editClient } = require("./controllers/clientController")
+const { registerClient, getClients, detailClient, updateClient } = require("./controllers/clientController")
 const clientSchema = require('./validations/clientSchema')
 
 const route = express();
@@ -42,7 +42,7 @@ route.put("/usuario", validateRequest(userSchema), updateUser);
 route.post("/cliente", validateRequest(clientSchema), registerClient);
 route.get("/cliente", getClients);
 route.get("/cliente/:id", detailClient);
-route.put("/cliente/:id", validateRequest(clientSchema), editClient);
+route.put("/cliente/:id", validateRequest(clientSchema), updateClient);
 
 route.get("/produto", getProducts);
 route.get("/produto/:id", detailProduct);
