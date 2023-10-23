@@ -1,9 +1,7 @@
 const knex = require("../connection");
-const axios = require('axios');
-
+const axios = require("axios");
 
 const registerClient = async (req, res) => {
-
   try {
     const { nome, email, cpf, cep, numero } = req.body;
 
@@ -14,19 +12,24 @@ const registerClient = async (req, res) => {
       return res.status(400).json({ mensagem: "CEP não encontrado." });
     }
 
-    const { logradouro: rua, bairro, localidade: cidade, uf: estado } = addressData;
+    const {
+      logradouro: rua,
+      bairro,
+      localidade: cidade,
+      uf: estado,
+    } = addressData;
 
     const existingEmail = await knex("clientes").where({ email }).first();
 
     if (existingEmail) {
       return res.status(400).json({ mensagem: "Email já cadastrado." });
-    };
+    }
 
     const existingCpf = await knex("clientes").where({ cpf }).first();
 
     if (existingCpf) {
       return res.status(400).json({ mensagem: "CPF já cadastrado." });
-    };
+    }
 
     const client = await knex("clientes")
       .insert({
@@ -38,51 +41,42 @@ const registerClient = async (req, res) => {
         numero: req.body.numero,
         bairro,
         cidade,
-        estado
+        estado,
       })
       .returning("*");
 
     return res.status(201).json({ "Cliente Cadastrado": client[0] });
-
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
-}
+};
 
 const getClients = async (req, res) => {
-
   try {
-    const clients = await knex
-      .from('clientes')
-      .select('*')
+    const clients = await knex("clientes");
 
-    const { senha: _, ...clientsFormatted } = clients
-
-    return res.status(200).json(clientsFormatted)
-
+    return res.status(200).json(clients);
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
-}
+};
 
 const detailClient = async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   try {
-    const client = await knex('clientes').where({ id })
+    const client = await knex("clientes").where({ id });
 
-    return res.status(200).json(client)
-
+    return res.status(200).json(client);
   } catch (error) {
-    return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
 
 const updateClient = async (req, res) => {
   try {
-    const { id } = req.params; 
-    const { nome, email, cpf, cep, numero } = req.body; 
+    const { id } = req.params;
+    const { nome, email, cpf, cep, numero } = req.body;
 
     const existingClient = await knex("clientes").where({ id }).first();
 
@@ -90,15 +84,19 @@ const updateClient = async (req, res) => {
       return res.status(404).json({ mensagem: "Cliente não encontrado." });
     }
 
-    const emailExists = await knex("clientes").where({ email }).whereNot({ id }).first();
+    const emailExists = await knex("clientes")
+      .where({ email })
+      .whereNot({ id })
+      .first();
 
     if (emailExists) {
-      
       return res.status(400).json({ mensagem: "Email já cadastrado." });
     }
 
-   
-    const cpfExists = await knex("clientes").where({ cpf }).whereNot({ id }).first();
+    const cpfExists = await knex("clientes")
+      .where({ cpf })
+      .whereNot({ id })
+      .first();
 
     if (cpfExists) {
       return res.status(400).json({ mensagem: "CPF já cadastrado." });
@@ -111,12 +109,14 @@ const updateClient = async (req, res) => {
       cep,
       numero,
     };
-  
+
     await knex("clientes").where({ id }).update(updatedClient);
 
     const client = await knex("clientes").where({ id }).first();
 
-    return res.status(200).json({ mensagem: "Cliente atualizado com sucesso", cliente: client });
+    return res
+      .status(200)
+      .json({ mensagem: "Cliente atualizado com sucesso", cliente: client });
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
@@ -126,5 +126,5 @@ module.exports = {
   registerClient,
   getClients,
   detailClient,
-  updateClient
-}
+  updateClient,
+};
