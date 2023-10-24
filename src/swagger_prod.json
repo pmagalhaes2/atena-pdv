@@ -7,21 +7,13 @@
   },
   "host": "mushy-calf-wrap.cyclic.cloud",
   "basePath": "/",
-  "schemes": [
-    "http", "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/categoria": {
       "get": {
-        "tags": [
-          "Categoria"
-        ],
+        "tags": ["Categoria"],
         "description": "Listagem de categorias",
         "responses": {
           "200": {
@@ -35,9 +27,7 @@
     },
     "/usuario": {
       "post": {
-        "tags": [
-          "Usuário"
-        ],
+        "tags": ["Usuário"],
         "description": "Cadastro de usuário",
         "parameters": [
           {
@@ -72,9 +62,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Usuário"
-        ],
+        "tags": ["Usuário"],
         "description": "Detalhamento de usuário",
         "parameters": [
           {
@@ -96,9 +84,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Usuário"
-        ],
+        "tags": ["Usuário"],
         "description": "Atualização de usuário",
         "parameters": [
           {
@@ -146,9 +132,7 @@
     },
     "/login": {
       "post": {
-        "tags": [
-          "Login"
-        ],
+        "tags": ["Login"],
         "description": "Login do usuário",
         "parameters": [
           {
@@ -185,9 +169,7 @@
     },
     "/cliente": {
       "post": {
-        "tags": [
-          "Cliente"
-        ],
+        "tags": ["Cliente"],
         "description": "Cadastro de cliente",
         "parameters": [
           {
@@ -239,9 +221,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Cliente"
-        ],
+        "tags": ["Cliente"],
         "description": "Listagem de clientes",
         "parameters": [
           {
@@ -268,9 +248,7 @@
     },
     "/cliente/{id}": {
       "get": {
-        "tags": [
-          "Cliente"
-        ],
+        "tags": ["Cliente"],
         "description": "Detalhamento de cliente",
         "parameters": [
           {
@@ -301,9 +279,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Cliente"
-        ],
+        "tags": ["Cliente"],
         "description": "Atualização de cliente",
         "parameters": [
           {
@@ -363,9 +339,7 @@
     },
     "/produto": {
       "get": {
-        "tags": [
-          "Produto"
-        ],
+        "tags": ["Produto"],
         "description": "Listagem de produtos",
         "parameters": [
           {
@@ -398,9 +372,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Produto"
-        ],
+        "tags": ["Produto"],
         "description": "Cadastro de produto",
         "parameters": [
           {
@@ -451,9 +423,7 @@
     },
     "/produto/{id}": {
       "get": {
-        "tags": [
-          "Produto"
-        ],
+        "tags": ["Produto"],
         "description": "Detalhamento de produto",
         "parameters": [
           {
@@ -484,9 +454,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Produto"
-        ],
+        "tags": ["Produto"],
         "description": "Atualização de produto",
         "parameters": [
           {
@@ -541,9 +509,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Produto"
-        ],
+        "tags": ["Produto"],
         "description": "Exclusão de produto",
         "parameters": [
           {
