@@ -7,6 +7,8 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerLocalFile = require("./swagger_local.json");
 const swaggerProdFile = require("./swagger_prod.json");
 
+const app = express();
+
 const corsOptions = {
   origin: "https://mushy-calf-wrap.cyclic.cloud/api-doc",
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
@@ -18,8 +20,6 @@ app.use(cors(corsOptions));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
 app.use("/api-doc/local", swaggerUi.serve, swaggerUi.setup(swaggerLocalFile));
-
-const app = express();
 
 app.use(express.json());
 
