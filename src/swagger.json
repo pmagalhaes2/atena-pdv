@@ -5,7 +5,7 @@
     "title": "Atena Ponto de Venda",
     "description": "Sistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy."
   },
-  "host": "localhost:3000",
+  "host": "mushy-calf-wrap.cyclic.cloud",
   "basePath": "/",
   "schemes": [
     "http", "https"
