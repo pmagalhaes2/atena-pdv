@@ -5,11 +5,11 @@ const doc = {
     version: "1.0.0",
     title: "Atena PDV",
     description:
-      "ASistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy.",
+      "Sistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy.",
   },
   host: "localhost:3000",
   basePath: "/",
-  schemes: ["http"],
+  schemes: ["http", "https"],
   consumes: ["application/json"],
   produces: ["application/json"],
   tags: [],
