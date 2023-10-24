@@ -4,7 +4,6 @@ const express = require("express");
 const route = require("./routes");
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerLocalFile = require("./swagger_local.json");
 const swaggerProdFile = require("./swagger_prod.json");
 
 const app = express();
@@ -18,8 +17,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
-app.use("/api-doc/local", swaggerUi.serve, swaggerUi.setup(swaggerLocalFile));
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
 
 app.use(express.json());
 
