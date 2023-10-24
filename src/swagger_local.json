@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
       "version": "1.0.0",
-      "title": "Atena Ponto de Venda",
+      "title": "Atena Ponto de Venda (Local)",
       "description": "Sistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy."
     },
     "host": "localhost:3000",

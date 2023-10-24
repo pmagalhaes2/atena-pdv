@@ -18,8 +18,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use("/api-doc/prod", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
 app.use("/api-doc/local", swaggerUi.serve, swaggerUi.setup(swaggerLocalFile));
-app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
 
 app.use(express.json());
 
