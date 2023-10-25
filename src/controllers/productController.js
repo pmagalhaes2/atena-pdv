@@ -1,7 +1,10 @@
 const knex = require("../connection");
+const { uploadImage } = require("../utils/uploads");
 
 const registerProduct = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+
+  const { originalname, mimetype, buffer } = req.file
 
   try {
     const category = await knex("categorias")
@@ -22,16 +25,28 @@ const registerProduct = async (req, res) => {
         .json({ mensagem: "Produto já cadastrado", Produto: productName });
     }
 
-    const product = await knex("produtos")
-      .insert({
-        descricao,
-        quantidade_estoque,
-        valor,
-        categoria_id,
-      })
-      .returning("*");
+    originalname.trim()
 
-    return res.status(201).json({ "Produto registrado": product[0] });
+    const image = await uploadImage(
+      `imagens/${originalname}`,
+      buffer,
+      mimetype
+    )
+    let imageUrl = image.url.split(" ")
+
+    imageUrl = imageUrl.join("+")
+
+     const product = await knex("produtos")
+       .insert({
+         descricao,
+         quantidade_estoque,
+         valor,
+         categoria_id,
+         produto_imagem: imageUrl
+       })
+       .returning("*");
+ 
+     return res.status(201).json(product[0]);
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }

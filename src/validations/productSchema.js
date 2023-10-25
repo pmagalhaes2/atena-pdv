@@ -23,6 +23,10 @@ const productSchema = joi.object({
         'number.min': 'categoria_id deve ser maior ou igual a 1',
         'number.base': 'O campo categoria_id deve ser um número',
     }),
+    produto_imagem: joi.string().trim().messages({
+        'string.base': 'O campo deve ser uma string',
+        'string.trim': 'O campo não pode conter espaços em branco'
+    })
 });
 
 module.exports = productSchema;
