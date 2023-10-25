@@ -20,12 +20,19 @@ const {
   registerProduct,
   updateProduct,
   getProducts,
-  deleteProduct
+  deleteProduct,
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
-const { registerClient, getClients, detailClient, updateClient } = require("./controllers/clientController")
-const clientSchema = require('./validations/clientSchema')
+const {
+  registerClient,
+  getClients,
+  detailClient,
+  updateClient,
+} = require("./controllers/clientController");
+const clientSchema = require("./validations/clientSchema");
+const orderSchema = require("./validations/orderSchema");
+const { registerOrder } = require("./controllers/orderController");
 
 const route = express();
 
@@ -48,7 +55,8 @@ route.get("/produto", getProducts);
 route.get("/produto/:id", detailProduct);
 route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
-route.delete("/produto/:id", deleteProduct)
+route.delete("/produto/:id", deleteProduct);
 
+route.post("/pedido", validateRequest(orderSchema), registerOrder);
 
 module.exports = route;
