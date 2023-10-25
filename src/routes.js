@@ -48,7 +48,7 @@ route.put("/cliente/:id", validateRequest(clientSchema), updateClient);
 route.get("/produto", getProducts);
 route.get("/produto/:id", detailProduct);
 route.post("/produto", multer.single("produto_imagem"), validateRequest(productSchema), registerProduct);
-route.put("/produto/:id", validateRequest(productSchema), updateProduct);
+route.put("/produto/:id", multer.single("produto_imagem"), validateRequest(productSchema), updateProduct);
 route.delete("/produto/:id", deleteProduct)
 
 module.exports = route;
