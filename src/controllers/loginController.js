@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const knex = require("../connection");
+const knex = require("../connections/postgres");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {

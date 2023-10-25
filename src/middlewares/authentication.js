@@ -1,4 +1,4 @@
-const knex = require('../connection');
+const knex = require('../connections/postgres');
 const jwt = require('jsonwebtoken');
 
 const authenticatedUser = async (req, res, next) => {

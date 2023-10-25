@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 
-
 const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,
@@ -11,21 +10,14 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const send = (to, subject, html) => {
+const sendEmail = (client, clientEmail, html) => {
     transporter.sendMail({
-        from: process.env.MAIL_FROM,
-        to,
-        subject,
-        html: emailFile.toString()
+        from: `Atena <${process.env.MAIL_FROM}>`,
+        to: `${client} <${clientEmail}>`,
+        subject: 'Confirmação de Pedido',
+        html,
     })
 }
 
-// const send = require("../connections/nodemailer");
 
-// const sendEmail = async (req, res) => {
-//     const { to, subject, body } = req.body;
-
-//     send(to, subject, body)
-// }
-
-module.exports = send;
+module.exports = sendEmail;
