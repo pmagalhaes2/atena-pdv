@@ -1,11 +1,11 @@
 const knex = require("../connection");
 
 const registerOrder = async (req, res) => {
-  const { client_id, observacao, pedido_produtos } = req.body;
+  const { cliente_id, observacao, pedido_produtos } = req.body;
 
   try {
     const existingClient = await knex("clientes")
-      .where({ id: client_id })
+      .where({ id: cliente_id })
       .first();
 
     if (!existingClient) {

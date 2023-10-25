@@ -13,7 +13,7 @@ const productSchema = joi.object({
 });
 
 const orderSchema = joi.object({
-  client_id: joi.number().integer().required().messages({
+  cliente_id: joi.number().integer().required().messages({
     "any.required": "O campo client_id é obrigatório",
     "number.base": "O campo client_id deve ser um número",
   }),
