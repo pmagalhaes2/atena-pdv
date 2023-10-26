@@ -32,7 +32,11 @@ const {
 } = require("./controllers/clientController");
 const clientSchema = require("./validations/clientSchema");
 const orderSchema = require("./validations/orderSchema");
-const { registerOrder } = require("./controllers/orderController");
+
+const { 
+  registerOrder,
+  listOrder
+} = require("./controllers/orderController");
 
 const route = express();
 
@@ -57,6 +61,8 @@ route.post("/produto", validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", validateRequest(productSchema), updateProduct);
 route.delete("/produto/:id", deleteProduct);
 
+route.get("/pedido", listOrder)
 route.post("/pedido", validateRequest(orderSchema), registerOrder);
+
 
 module.exports = route;
