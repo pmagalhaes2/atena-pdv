@@ -1,7 +1,10 @@
+const knex = require("../connection");
+const { uploadImage, deleteImage } = require("../utils/imagesManage");
 const knex = require("../connections/postgres");
 
 const registerProduct = async (req, res) => {
-  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id, } = req.body;
+  const produto_imagem = req.file
 
   try {
     const category = await knex("categorias")
@@ -22,16 +25,47 @@ const registerProduct = async (req, res) => {
         .json({ mensagem: "Produto já cadastrado", Produto: productName });
     }
 
-    const product = await knex("produtos")
-      .insert({
-        descricao,
-        quantidade_estoque,
-        valor,
-        categoria_id,
-      })
-      .returning("*");
+    if (produto_imagem === undefined) {
 
-    return res.status(201).json({ "Produto registrado": product[0] });
+      const product = await knex("produtos")
+        .insert({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+          produto_imagem
+        })
+        .returning("*");
+
+      return res.status(201).json(product[0]);
+
+    } else {
+      const { originalname, mimetype, buffer } = req.file
+
+      originalname.trim()
+
+      const image = await uploadImage(
+        `imagens/${originalname}`,
+        buffer,
+        mimetype
+      )
+
+      let imageUrl = image.url.split(" ")
+
+      imageUrl = imageUrl.join("+")
+
+      const product = await knex("produtos")
+        .insert({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+          produto_imagem: imageUrl
+        })
+        .returning("*");
+
+      return res.status(201).json(product[0]);
+    }
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
@@ -40,6 +74,7 @@ const registerProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  const produto_imagem = req.file
 
   try {
     const productFound = await knex("produtos").where({ id }).first();
@@ -68,24 +103,63 @@ const updateProduct = async (req, res) => {
       return res.status(400).json({ mensagem: "Categoria inválida" });
     }
 
-    const updateProduct = await knex("produtos")
-      .where({ id })
-      .update({
-        descricao,
-        quantidade_estoque,
-        valor,
-        categoria_id,
-      })
-      .returning("*");
+    if (produto_imagem === undefined) {
 
-    if (!updateProduct) {
-      return res.status(400).json({ mensagem: "Erro ao atualizar produto." });
+      const updateProduct = await knex("produtos")
+        .where({ id })
+        .update({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+          produto_imagem
+        })
+        .returning("*");
+
+      if (!updateProduct) {
+        return res.status(400).json({ mensagem: "Erro ao atualizar produto." });
+      }
+
+      return res.status(200).json({
+        mensagem: "Produto atualizado com sucesso!",
+        Produto: updateProduct[0],
+      });
+
+    } else {
+      const { originalname, mimetype, buffer } = req.file
+
+      originalname.trim()
+
+      const image = await uploadImage(
+        `imagens/${originalname}`,
+        buffer,
+        mimetype
+      )
+
+      let imageUrl = image.url.split(" ")
+
+      imageUrl = imageUrl.join("+")
+
+      const updateProduct = await knex("produtos")
+        .where({ id })
+        .update({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+          produto_imagem: imageUrl
+        })
+        .returning("*");
+
+      if (!updateProduct) {
+        return res.status(400).json({ mensagem: "Erro ao atualizar produto." });
+      }
+
+      return res.status(200).json({
+        mensagem: "Produto atualizado com sucesso!",
+        Produto: updateProduct[0],
+      });
     }
-
-    return res.status(200).json({
-      mensagem: "Produto atualizado com sucesso!",
-      Produto: updateProduct[0],
-    });
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
@@ -145,6 +219,7 @@ const detailProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
+  const { file } = req.query
 
   try {
     const productFound = await knex("produtos").where({ id }).first();
@@ -152,6 +227,7 @@ const deleteProduct = async (req, res) => {
     if (!productFound) {
       return res.status(404).json({ mensagem: "Produto não encontrado." });
     }
+    await deleteImage(file)
 
     await knex("produtos").del().where({ id });
 
@@ -166,5 +242,5 @@ module.exports = {
   updateProduct,
   getProducts,
   detailProduct,
-  deleteProduct,
+  deleteProduct
 };
