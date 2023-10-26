@@ -28,6 +28,17 @@ const productSchema = require("./validations/productSchema");
 const { registerClient, getClients, detailClient, updateClient } = require("./controllers/clientController")
 const clientSchema = require('./validations/clientSchema');
 const multer = require("./middlewares/multer");
+const productSchema = require("./validations/productSchema");
+
+const {
+  registerClient,
+  getClients,
+  detailClient,
+  updateClient,
+} = require("./controllers/clientController");
+const clientSchema = require("./validations/clientSchema");
+const orderSchema = require("./validations/orderSchema");
+const { registerOrder } = require("./controllers/orderController");
 
 const route = express();
 
@@ -51,5 +62,10 @@ route.get("/produto/:id", detailProduct);
 route.post("/produto", multer.single("produto_imagem"), validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", multer.single("produto_imagem"), validateRequest(productSchema), updateProduct);
 route.delete("/produto/:id", deleteProduct)
+route.post("/produto", validateRequest(productSchema), registerProduct);
+route.put("/produto/:id", validateRequest(productSchema), updateProduct);
+route.delete("/produto/:id", deleteProduct);
+
+route.post("/pedido", validateRequest(orderSchema), registerOrder);
 
 module.exports = route;
