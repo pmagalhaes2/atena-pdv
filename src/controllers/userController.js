@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const knex = require("../connection");
+const knex = require("../connections/postgres");
 
 const registerUser = async (req, res) => {
   const { nome, email, senha } = req.body;

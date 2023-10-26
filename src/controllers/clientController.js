@@ -1,4 +1,4 @@
-const knex = require("../connection");
+const knex = require("../connections/postgres");
 const axios = require("axios");
 
 const registerClient = async (req, res) => {

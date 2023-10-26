@@ -1,4 +1,4 @@
-const knex = require("../connection");
+const knex = require("../connections/postgres");
 
 const getCategories = async (req, res) => {
   try {

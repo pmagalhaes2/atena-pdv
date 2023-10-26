@@ -1,4 +1,4 @@
-const knex = require("../connection");
+const knex = require("../connections/postgres");
 
 const registerProduct = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
