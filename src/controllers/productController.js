@@ -1,4 +1,3 @@
-const knex = require("../connection");
 const { uploadImage, deleteImage } = require("../utils/imagesManage");
 const knex = require("../connections/postgres");
 
@@ -222,6 +221,12 @@ const deleteProduct = async (req, res) => {
   const { file } = req.query
 
   try {
+    const linkedToOrder = await knex('pedido_produtos').where({ produto_id: id }).first();
+
+    if (linkedToOrder) {
+      return res.status(400).json({ mensagem: "Não é possível excluir este produto, pois ele está vinculado a um pedido." });
+    }
+
     const productFound = await knex("produtos").where({ id }).first();
 
     if (!productFound) {

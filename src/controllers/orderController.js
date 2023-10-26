@@ -81,4 +81,66 @@ const registerOrder = async (req, res) => {
   }
 };
 
-module.exports = { registerOrder };
+const listOrder = async (req, res) => {
+  try {
+    const { cliente_id } = req.query;
+   
+
+    let query = knex("pedidos as p")
+      .select(
+        "p.id as pedido_id",
+        "p.valor_total",
+        "p.observacao",
+        "p.cliente_id",
+        "pp.id as produto_pedido_id",
+        "pp.quantidade_produto",
+        "pp.valor_produto as valor_unitario",
+        "pp.pedido_id",
+        "pp.produto_id"
+      )
+      .leftJoin("pedido_produtos as pp", "p.id", "pp.pedido_id");
+
+    if (cliente_id) {
+      query = query.where("p.cliente_id", cliente_id);
+    }
+
+    const orders = await query;
+
+    const formattedOrders = {};
+
+    for (const order of orders) {
+      const { pedido_id, cliente_id, observacao, valor_total } = order;
+      if (!formattedOrders[pedido_id]) {
+        formattedOrders[pedido_id] = {
+          pedido: {
+            id: pedido_id,
+            cliente_id,
+            observacao,
+            valor_total,
+          },
+          pedido_produtos: [],
+        };
+      }
+
+      if (order.produto_pedido_id) {
+        formattedOrders[pedido_id].pedido_produtos.push({
+          id: order.produto_pedido_id,
+          quantidade_produto: order.quantidade_produto,
+          valor_unitario: order.valor_unitario,
+          pedido_id: order.pedido_id,
+          produto_id: order.produto_id,
+        });
+      }
+    }
+
+    return res.status(200).json(Object.values(formattedOrders));
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
+};
+
+module.exports = { 
+  registerOrder,
+  listOrder
+};
