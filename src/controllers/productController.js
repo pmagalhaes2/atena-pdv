@@ -1,5 +1,5 @@
 const knex = require("../connection");
-const { uploadImage } = require("../utils/uploads");
+const { uploadImage, deleteImage } = require("../utils/imagesManage");
 
 const registerProduct = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id, } = req.body;
@@ -218,6 +218,7 @@ const detailProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
+  const { file } = req.query
 
   try {
     const productFound = await knex("produtos").where({ id }).first();
@@ -225,6 +226,7 @@ const deleteProduct = async (req, res) => {
     if (!productFound) {
       return res.status(404).json({ mensagem: "Produto não encontrado." });
     }
+    await deleteImage(file)
 
     await knex("produtos").del().where({ id });
 
@@ -239,5 +241,5 @@ module.exports = {
   updateProduct,
   getProducts,
   detailProduct,
-  deleteProduct,
+  deleteProduct
 };

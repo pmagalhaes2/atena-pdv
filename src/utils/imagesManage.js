@@ -28,6 +28,19 @@ const uploadImage = async (path, buffer, mimetype) => {
     }
 }
 
+const deleteImage = async (path) => {
+    try {
+        await s3.deleteObject({
+            Bucket: process.env.BACKBLAZE_BUCKET,
+            Key: path
+        }).promise()
+
+    } catch (error) {
+        return res.status(500).json({ mensagem: "Erro interno do Servidor" })
+    }
+}
+
 module.exports = {
-    uploadImage
+    uploadImage,
+    deleteImage
 }

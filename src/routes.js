@@ -20,7 +20,8 @@ const {
   registerProduct,
   updateProduct,
   getProducts,
-  deleteProduct
+  deleteProduct,
+  deleteImageProduct
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
