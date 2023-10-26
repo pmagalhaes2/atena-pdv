@@ -25,10 +25,8 @@ const {
 } = require("./controllers/productController");
 const productSchema = require("./validations/productSchema");
 
-const { registerClient, getClients, detailClient, updateClient } = require("./controllers/clientController")
 const clientSchema = require('./validations/clientSchema');
 const multer = require("./middlewares/multer");
-const productSchema = require("./validations/productSchema");
 
 const {
   registerClient,
@@ -36,10 +34,9 @@ const {
   detailClient,
   updateClient,
 } = require("./controllers/clientController");
-const clientSchema = require("./validations/clientSchema");
 const orderSchema = require("./validations/orderSchema");
 
-const { 
+const {
   registerOrder,
   listOrder
 } = require("./controllers/orderController");

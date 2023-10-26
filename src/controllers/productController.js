@@ -102,7 +102,11 @@ const updateProduct = async (req, res) => {
       return res.status(400).json({ mensagem: "Categoria inválida" });
     }
 
-    if (produto_imagem === undefined) {
+    if (!produto_imagem) {
+
+      if (productFound.produto_imagem) {
+        await deleteImage(productFound.produto_imagem)
+      }
 
       const updateProduct = await knex("produtos")
         .where({ id })
@@ -111,7 +115,7 @@ const updateProduct = async (req, res) => {
           quantidade_estoque,
           valor,
           categoria_id,
-          produto_imagem
+          produto_imagem: null
         })
         .returning("*");
 
@@ -160,6 +164,7 @@ const updateProduct = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
@@ -232,12 +237,15 @@ const deleteProduct = async (req, res) => {
     if (!productFound) {
       return res.status(404).json({ mensagem: "Produto não encontrado." });
     }
+
+    console.log(file);
     await deleteImage(file)
 
     await knex("produtos").del().where({ id });
 
     return res.status(200).json({ mensagem: "Produto excluído com sucesso!" });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
