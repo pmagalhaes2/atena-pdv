@@ -38,7 +38,7 @@ const registerClient = async (req, res) => {
         cpf,
         cep,
         rua,
-        numero: req.body.numero,
+        numero,
         bairro,
         cidade,
         estado,
@@ -78,6 +78,20 @@ const updateClient = async (req, res) => {
     const { id } = req.params;
     const { nome, email, cpf, cep, numero } = req.body;
 
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const addressData = response.data;
+
+    if (addressData.erro) {
+      return res.status(400).json({ mensagem: "CEP não encontrado." });
+    }
+
+    const {
+      logradouro: rua,
+      bairro,
+      localidade: cidade,
+      uf: estado,
+    } = addressData;
+
     const existingClient = await knex("clientes").where({ id }).first();
 
     if (!existingClient) {
@@ -107,7 +121,11 @@ const updateClient = async (req, res) => {
       email,
       cpf,
       cep,
+      rua,
       numero,
+      bairro,
+      cidade,
+      estado,
     };
 
     await knex("clientes").where({ id }).update(updatedClient);

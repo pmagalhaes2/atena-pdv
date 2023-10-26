@@ -63,9 +63,6 @@ route.get("/produto/:id", detailProduct);
 route.post("/produto", multer.single("produto_imagem"), validateRequest(productSchema), registerProduct);
 route.put("/produto/:id", multer.single("produto_imagem"), validateRequest(productSchema), updateProduct);
 route.delete("/produto/:id", deleteProduct)
-route.post("/produto", validateRequest(productSchema), registerProduct);
-route.put("/produto/:id", validateRequest(productSchema), updateProduct);
-route.delete("/produto/:id", deleteProduct);
 
 route.get("/pedido", listOrder)
 route.post("/pedido", validateRequest(orderSchema), registerOrder);

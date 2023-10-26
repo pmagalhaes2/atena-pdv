@@ -223,7 +223,6 @@ const detailProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  const { file } = req.query
 
   try {
     const linkedToOrder = await knex('pedido_produtos').where({ produto_id: id }).first();
@@ -238,8 +237,7 @@ const deleteProduct = async (req, res) => {
       return res.status(404).json({ mensagem: "Produto não encontrado." });
     }
 
-    console.log(file);
-    await deleteImage(file)
+    await deleteImage(productFound.produto_imagem);
 
     await knex("produtos").del().where({ id });
 
