@@ -1,6 +1,7 @@
 const knex = require("../connections/postgres");
 const sendEmail = require("../connections/nodemailer");
 const htmlCompiler = require("../utils/htmlCompiler");
+const productsList = require("../utils/htmlString");
 
 const registerOrder = async (req, res) => {
   const { cliente_id, observacao, pedido_produtos } = req.body;
@@ -65,13 +66,8 @@ const registerOrder = async (req, res) => {
     const html = await htmlCompiler("./src/templates/email.html", {
       client: existingClient.nome,
       order: newOrder[0].id,
-      products: pedido_produtos.map((product) => {
-        return `
-          Produto #${product.produto_id} \n
-          Quantidade: ${product.quantidade_produto}
-        `;
-      }),
-      totalPrice: valor_total,
+      products: await productsList(req),
+      totalPrice: (valor_total / 100).toFixed(2),
     });
 
     sendEmail(existingClient.nome, existingClient.email, html);
