@@ -27,12 +27,12 @@ const registerOrder = async (req, res) => {
         });
       }
 
-      const productPrice = await knex("produtos")
-        .where({ id: order.produto_id })
-        .select("valor as valor_produto")
-        .first();
-
-      valor_total += order.quantidade_produto * productPrice.valor_produto;
+      if (existingProduct.quantidade_estoque < order.quantidade_produto) {
+        return res.status(404).json({
+          mensagem: `Apenas ${existingProduct.quantidade_estoque} unidades disponíveis do produto ${existingProduct.descricao}`
+        })
+      }
+      valor_total += order.quantidade_produto * existingProduct.valor;
     }
 
     const newOrder = await knex("pedidos")
