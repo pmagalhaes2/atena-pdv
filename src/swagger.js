@@ -1,21 +1,22 @@
 const swaggerAutogen = require("swagger-autogen");
 
-const doc = {
+const prodDoc = {
   info: {
     version: "1.0.0",
     title: "Atena PDV",
     description:
-      "ASistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy.",
+      "Sistema de PDV desenvolvido como projeto de conclusão do curso de Desenvolvimento de Software com foco em Backend da Cubos Academy.",
   },
-  host: "localhost:3000",
+  host: "mushy-calf-wrap.cyclic.cloud",
   basePath: "/",
-  schemes: ["http", "https"],
+  schemes: ["https"],
   consumes: ["application/json"],
   produces: ["application/json"],
   tags: [],
 };
 
-const outputFile = "./swagger.json";
+const prodOutputFile = "./swagger_prod.json";
+
 const endpointsFiles = ["./routes.js"];
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+swaggerAutogen(prodOutputFile, endpointsFiles, prodDoc);

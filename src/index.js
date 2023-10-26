@@ -1,13 +1,23 @@
 require("dotenv").config();
+const cors = require("cors");
 const express = require("express");
 const route = require("./routes");
 
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger.json')
+const swaggerUi = require("swagger-ui-express");
+const swaggerProdFile = require("./swagger_prod.json");
 
 const app = express();
 
-app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+const corsOptions = {
+  origin: "https://mushy-calf-wrap.cyclic.cloud/api-doc",
+  methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerProdFile));
 
 app.use(express.json());
 
