@@ -1,8 +1,8 @@
 const knex = require('../connections/postgres');
 
-let products = "";
 
 const productsList = async (req) => {
+    let products = "";
     const { pedido_produtos } = req.body;
 
     for (const order of pedido_produtos) {
