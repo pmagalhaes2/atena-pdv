@@ -65,7 +65,11 @@ const detailClient = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const client = await knex("clientes").where({ id });
+    const client = await knex("clientes").where({ id }).first();
+
+    if (!client) {
+      return res.status(404).json({ mensagem: "Cliente não encontrado." });
+    }
 
     return res.status(200).json(client);
   } catch (error) {
