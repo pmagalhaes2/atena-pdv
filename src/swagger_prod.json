@@ -544,6 +544,13 @@
       "get": {
         "tags": ["Pedido"],
         "description": "Listagem de pedidos",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
