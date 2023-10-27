@@ -84,7 +84,6 @@ const registerOrder = async (req, res) => {
 const listOrder = async (req, res) => {
   try {
     const { cliente_id } = req.query;
-   
 
     let query = knex("pedidos as p")
       .select(
@@ -101,6 +100,11 @@ const listOrder = async (req, res) => {
       .leftJoin("pedido_produtos as pp", "p.id", "pp.pedido_id");
 
     if (cliente_id) {
+      const client = await knex('clientes').where({ id: cliente_id }).first();
+
+      if (!client) {
+        return res.status(404).json({ mensagem: "Cliente não encontrado" });
+      }
       query = query.where("p.cliente_id", cliente_id);
     }
 
@@ -134,13 +138,14 @@ const listOrder = async (req, res) => {
     }
 
     return res.status(200).json(Object.values(formattedOrders));
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
 
-module.exports = { 
+module.exports = {
   registerOrder,
   listOrder
 };
